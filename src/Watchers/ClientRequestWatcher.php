@@ -107,6 +107,13 @@ class ClientRequestWatcher extends Watcher
                         : 'Purged By Telescope';
             }
 
+            $xml = simplexml_load_string($content, null , LIBXML_NOCDATA );
+            if ($xml !== false) {
+                return $this->contentWithinLimits($content)
+                        ? $this->hideParameters(json_decode(json_encode($xml), Telescope::$hiddenResponseParameters)
+                        : 'Purged By Telescope';
+            }
+            
             if (Str::startsWith(strtolower($response->header('Content-Type') ?? ''), 'text/plain')) {
                 return $this->contentWithinLimits($content) ? $content : 'Purged By Telescope';
             }
