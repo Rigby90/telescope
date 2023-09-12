@@ -116,6 +116,7 @@ class ClientRequestWatcher extends Watcher
                         : 'Purged By Telescope';
             }
             libxml_clear_errors();
+            libxml_use_internal_errors(false);
             
             if (Str::startsWith(strtolower($response->header('Content-Type') ?? ''), 'text/plain')) {
                 return $this->contentWithinLimits($content) ? $content : 'Purged By Telescope';
