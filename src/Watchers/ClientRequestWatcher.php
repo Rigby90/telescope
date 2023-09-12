@@ -110,7 +110,7 @@ class ClientRequestWatcher extends Watcher
             $xml = simplexml_load_string($content, null , LIBXML_NOCDATA );
             if ($xml !== false) {
                 return $this->contentWithinLimits($content)
-                        ? $this->hideParameters(json_decode(json_encode($xml), Telescope::$hiddenResponseParameters))
+                        ? $this->hideParameters(json_decode(json_encode($xml), true), Telescope::$hiddenResponseParameters)
                         : 'Purged By Telescope';
             }
             
