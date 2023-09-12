@@ -107,12 +107,15 @@ class ClientRequestWatcher extends Watcher
                         : 'Purged By Telescope';
             }
 
+            libxml_use_internal_errors(true);
             $xml = simplexml_load_string($content, null , LIBXML_NOCDATA );
-            if ($xml !== false) {
+            $errors = libxml_get_errors();
+            if (empty($errors)) {
                 return $this->contentWithinLimits($content)
                         ? $this->hideParameters(json_decode(json_encode($xml), true), Telescope::$hiddenResponseParameters)
                         : 'Purged By Telescope';
             }
+            libxml_clear_errors();
             
             if (Str::startsWith(strtolower($response->header('Content-Type') ?? ''), 'text/plain')) {
                 return $this->contentWithinLimits($content) ? $content : 'Purged By Telescope';
